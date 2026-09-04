@@ -2,8 +2,22 @@
   "name": "contracts",
   "version": "1.0.0",
   "private": true,
+  "description": "LexVault Smart Contracts and On-Chain Registry",
   "scripts": {
-    "build": "echo \"Contracts build placeholder\"",
-    "test": "echo \"Contracts test placeholder\""
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.ts",
+    "build": "hardhat compile"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.5"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "hardhat": "^2.22.18",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }

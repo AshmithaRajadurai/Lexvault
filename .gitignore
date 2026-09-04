@@ -9,3 +9,6 @@ uploads/*
 !uploads/.gitkeep
 *.log
 .DS_Store
+artifacts/
+cache/
+typechain-types/
