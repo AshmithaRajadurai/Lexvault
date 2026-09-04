@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-export type CustodyAction = 'COLLECTED' | 'UPLOADED' | 'TRANSFERRED' | 'VERIFIED';
+export type CustodyAction = 'COLLECTED' | 'UPLOADED' | 'TRANSFERRED' | 'ANALYZED' | 'VERIFIED';
 
 export interface ICustodyEvent extends Document {
   evidenceId: string;
@@ -27,7 +27,7 @@ const custodyEventSchema = new Schema<ICustodyEvent>(
     },
     action: {
       type: String,
-      enum: ['COLLECTED', 'UPLOADED', 'TRANSFERRED', 'VERIFIED'],
+      enum: ['COLLECTED', 'UPLOADED', 'TRANSFERRED', 'ANALYZED', 'VERIFIED'],
       required: [true, 'Custody action is required'],
     },
     timestamp: {

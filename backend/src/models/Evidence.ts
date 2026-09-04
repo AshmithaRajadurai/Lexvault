@@ -13,6 +13,8 @@ export interface IEvidence extends Document {
   uploadedBy: string;
   timestamp: Date;
   status: EvidenceStatus;
+  iv?: string;
+  authTag?: string;
 }
 
 const evidenceSchema = new Schema<IEvidence>(
@@ -69,6 +71,14 @@ const evidenceSchema = new Schema<IEvidence>(
       enum: ['VERIFIED', 'TAMPERED'],
       default: 'VERIFIED',
       required: true,
+    },
+    iv: {
+      type: String,
+      default: '',
+    },
+    authTag: {
+      type: String,
+      default: '',
     },
   },
   {

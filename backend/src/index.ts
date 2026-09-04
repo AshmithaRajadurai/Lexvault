@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/db';
 import authRoutes from './routes/authRoutes';
 import zkRoutes from './routes/zkRoutes';
+import caseRoutes from './routes/caseRoutes';
+import evidenceRoutes from './routes/evidenceRoutes';
+import verifyRoutes from './routes/verifyRoutes';
 
 dotenv.config();
 
@@ -23,6 +26,9 @@ app.get('/api/health', (_req: Request, res: Response) => {
 // Mount Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/zk', zkRoutes);
+app.use('/api/cases', caseRoutes);
+app.use('/api/evidence', evidenceRoutes);
+app.use('/api/verify', verifyRoutes);
 
 // Connect to MongoDB and start server if executed directly
 if (process.env.NODE_ENV !== 'test') {
