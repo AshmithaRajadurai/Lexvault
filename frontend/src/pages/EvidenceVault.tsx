@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Search,
   PlusCircle,
@@ -12,6 +12,7 @@ import {
 import { TamperBadge } from '../components/TamperBadge';
 import { CustodyTimeline } from '../components/CustodyTimeline';
 import { ZkProofCard } from '../components/ZkProofCard';
+import { TruncatedHash } from '../components/TruncatedHash';
 import {
   getEvidence,
   getEvidenceDetails,
@@ -180,28 +181,32 @@ export const EvidenceVault: React.FC = () => {
           </div>
         </div>
 
-        {/* Horizontal Quick Artifact Selector Pills */}
-        <div className="pt-2 border-t border-slate-100 flex items-center gap-2 overflow-x-auto pb-1">
-          <span className="text-[10px] uppercase font-bold text-slate-400 font-mono shrink-0">
-            Select Artifact:
-          </span>
-          {filteredEvidence.map((item) => {
-            const isSelected = selectedEvidence?.evidenceId === item.evidenceId;
-            return (
-              <button
-                key={item.evidenceId}
-                onClick={() => handleSelectEvidence(item)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold shrink-0 transition-all flex items-center gap-2 border ${
-                  isSelected
-                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300 shadow-2xs'
-                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                <span>{item.evidenceId}</span>
-                <TamperBadge status={item.status} size="sm" />
-              </button>
-            );
-          })}
+        {/* Sleek Active Artifact Selector Dropdown */}
+        <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
+              Active Artifact:
+            </span>
+            {selectedEvidence && (
+              <TamperBadge status={selectedEvidence.status} size="sm" />
+            )}
+          </div>
+          <div className="flex-1 max-w-2xl">
+            <select
+              value={selectedEvidence?.evidenceId || ''}
+              onChange={(e) => {
+                const found = evidenceList.find((ev) => ev.evidenceId === e.target.value);
+                if (found) handleSelectEvidence(found);
+              }}
+              className="w-full bg-slate-50 hover:bg-slate-100/80 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 font-mono font-bold focus:bg-white focus:border-emerald-500 focus:outline-none transition-all shadow-2xs cursor-pointer"
+            >
+              {filteredEvidence.map((item) => (
+                <option key={item.evidenceId} value={item.evidenceId}>
+                  [{item.evidenceId}] — {item.filename} ({item.caseId}) • {item.status}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -247,9 +252,14 @@ export const EvidenceVault: React.FC = () => {
                 <span className="text-slate-400 text-[10px] uppercase font-bold block mb-1">
                   Registered SHA-256 Checksum:
                 </span>
-                <span className="text-blue-700 break-all select-all font-bold text-[11px] block bg-white p-2 rounded-lg border border-slate-200">
-                  {selectedEvidence.sha256}
-                </span>
+                <div className="pt-0.5">
+                  <TruncatedHash
+                    hash={selectedEvidence.sha256}
+                    startChars={10}
+                    endChars={8}
+                    variant="blue"
+                  />
+                </div>
               </div>
 
               {/* On-Chain Confirmation */}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, UploadCloud, Link2, Search, CheckCircle2, User, KeyRound, Clock } from 'lucide-react';
 import { CustodyEventData } from '../services/api';
+import { TruncatedHash } from './TruncatedHash';
 
 interface CustodyTimelineProps {
   events: CustodyEventData[];
@@ -101,28 +102,28 @@ export const CustodyTimeline: React.FC<CustodyTimelineProps> = ({ events }) => {
               </div>
 
               {/* Hash Chain Details */}
-              <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px] font-mono">
-                <div className="truncate">
-                  <span className="text-slate-400 block text-[10px]">Prev Hash:</span>
-                  <span className="text-slate-600 truncate block font-medium">
-                    {ev.previousHash.slice(0, 18)}...{ev.previousHash.slice(-8)}
-                  </span>
+              <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] font-mono">
+                <div>
+                  <span className="text-slate-400 block text-[10px] uppercase font-bold mb-1">Prev Hash:</span>
+                  <TruncatedHash hash={ev.previousHash} startChars={8} endChars={7} />
                 </div>
-                <div className="truncate">
-                  <span className="text-slate-400 block text-[10px]">Current Hash:</span>
-                  <span className="text-emerald-700 truncate block font-bold">
-                    {ev.currentHash.slice(0, 18)}...{ev.currentHash.slice(-8)}
-                  </span>
+                <div>
+                  <span className="text-slate-400 block text-[10px] uppercase font-bold mb-1">Current Hash:</span>
+                  <TruncatedHash hash={ev.currentHash} startChars={8} endChars={7} variant="emerald" />
                 </div>
               </div>
 
               {/* Digital Signature */}
-              <div className="mt-2.5 text-[11px] font-mono text-slate-600 bg-slate-50 p-2 rounded-xl border border-slate-200 flex items-center gap-2 truncate">
-                <KeyRound className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                <span className="text-slate-400 shrink-0 text-[10px] uppercase font-bold">Signature:</span>
-                <span className="text-purple-700 truncate text-[11px] font-medium">
-                  {ev.digitalSignature ? `${ev.digitalSignature.slice(0, 34)}...` : 'N/A'}
-                </span>
+              <div className="mt-2.5 text-[11px] font-mono text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <KeyRound className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                  <span className="text-slate-500 shrink-0 text-[10px] uppercase font-bold">Signature:</span>
+                </div>
+                {ev.digitalSignature ? (
+                  <TruncatedHash hash={ev.digitalSignature} startChars={10} endChars={8} variant="purple" />
+                ) : (
+                  <span className="text-slate-400">N/A</span>
+                )}
               </div>
             </div>
           </div>

@@ -99,10 +99,24 @@ const MOCK_CASES: CaseData[] = [
   },
   {
     caseId: 'CASE-2026-002',
-    title: 'Project Aegis — SCADA Firmware Tampering',
-    description: 'Industrial control system anomaly detection and memory analysis.',
-    createdBy: 'admin@lexvault.local',
+    title: 'Project Apex — Hardware Enclave & Supply Chain Breach',
+    description: 'Hardware security enclave verification following suspected physical implant.',
+    createdBy: 'investigator@lexvault.local',
     createdAt: '2026-09-04T09:30:00.000Z',
+  },
+  {
+    caseId: 'CASE-2026-003',
+    title: 'Operation BlueSky — Classified Surveillance Intercept',
+    description: 'High-definition aerial surveillance footage and RF network telemetry review.',
+    createdBy: 'investigator@lexvault.local',
+    createdAt: '2026-09-04T10:15:00.000Z',
+  },
+  {
+    caseId: 'CASE-2026-004',
+    title: 'Operation DeepShield — Ransomware Forensic Audit',
+    description: 'Cryptographic ransom note analysis and forensic memory dump recovery.',
+    createdBy: 'investigator@lexvault.local',
+    createdAt: '2026-09-04T11:00:00.000Z',
   },
 ];
 
@@ -141,7 +155,7 @@ const MOCK_EVIDENCE: EvidenceData[] = [
     mimeType: 'application/octet-stream',
     uploadedBy: 'investigator@lexvault.local',
     timestamp: '2026-09-04T10:00:00.000Z',
-    status: 'TAMPERED',
+    status: 'VERIFIED',
   },
 ];
 
@@ -285,3 +299,35 @@ export const verifyZkProof = async (proof: any, publicSignals: string[]) => {
   const res = await api.post('/zk/verify', { proof, publicSignals });
   return res.data;
 };
+
+export const restoreEvidence = async (evidenceId: string) => {
+  try {
+    const res = await api.post(`/verify/restore/${evidenceId}`);
+    return res.data;
+  } catch {
+    const target = MOCK_EVIDENCE.find((e) => e.evidenceId === evidenceId);
+    if (target) {
+      target.status = 'VERIFIED';
+      if (target.sha256.startsWith('bad00000')) {
+        target.sha256 = 'b45cffe321908234857201948572019485720194857201948572019485720194';
+      }
+    }
+    return { status: 'VERIFIED', evidenceId };
+  }
+};
+
+export const resetVault = async () => {
+  try {
+    const res = await api.post('/verify/reset-vault');
+    return res.data;
+  } catch {
+    MOCK_EVIDENCE.forEach((e) => {
+      e.status = 'VERIFIED';
+      if (e.sha256.startsWith('bad00000')) {
+        e.sha256 = 'b45cffe321908234857201948572019485720194857201948572019485720194';
+      }
+    });
+    return { message: 'Vault reset to verified state' };
+  }
+};
+

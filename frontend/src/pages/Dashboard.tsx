@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FolderLock,
   FileCheck2,
@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { StatsCard } from '../components/StatsCard';
 import { TamperBadge } from '../components/TamperBadge';
+import { TruncatedHash } from '../components/TruncatedHash';
 import { EvidenceUploadModal } from '../components/EvidenceUploadModal';
 import { getCases, getEvidence, CaseData, EvidenceData } from '../services/api';
 import { Link } from 'react-router-dom';
@@ -180,14 +181,10 @@ export const Dashboard: React.FC = () => {
                     <div className="text-[10px] text-slate-400 font-mono">{item.caseId}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-blue-700 font-mono bg-blue-50 px-2 py-1 rounded-md border border-blue-200 select-all text-[11px] font-medium">
-                      {item.sha256.slice(0, 10)}...{item.sha256.slice(-8)}
-                    </span>
+                    <TruncatedHash hash={item.sha256} variant="blue" />
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-purple-700 font-mono bg-purple-50 px-2 py-1 rounded-md border border-purple-200 select-all text-[11px] font-medium">
-                      {item.commitment.slice(0, 10)}...{item.commitment.slice(-6)}
-                    </span>
+                    <TruncatedHash hash={item.commitment} variant="purple" />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <TamperBadge status={item.status} size="sm" />
