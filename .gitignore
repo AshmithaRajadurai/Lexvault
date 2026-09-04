@@ -7,8 +7,13 @@ build/
 coverage/
 uploads/*
 !uploads/.gitkeep
+backend/uploads/*
+!backend/uploads/.gitkeep
 *.log
 .DS_Store
 artifacts/
 cache/
+contracts/artifacts/
+contracts/cache/
 typechain-types/
+contracts/typechain-types/

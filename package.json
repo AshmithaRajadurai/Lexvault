@@ -10,9 +10,17 @@
     "zk"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=backend",
+    "install:all": "npm install",
+    "dev": "concurrently -n \"NODE,BACKEND,FRONTEND\" -c \"yellow,cyan,green\" \"npm run node --workspace=contracts\" \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
     "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test:backend && npm run test:zk && npm run test:contracts",
+    "test:backend": "npm run test --workspace=backend",
+    "test:zk": "npm run test --workspace=zk",
+    "test:contracts": "npm run test --workspace=contracts",
+    "seed": "npm run seed --workspace=backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   },
   "keywords": [
     "lexvault",

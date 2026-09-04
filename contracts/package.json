@@ -7,7 +7,8 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "deploy": "hardhat run scripts/deploy.ts",
-    "build": "hardhat compile"
+    "build": "hardhat compile",
+    "node": "hardhat node"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
