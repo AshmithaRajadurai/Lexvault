@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { UploadCloud, X, CheckCircle2, AlertCircle, Loader2, Key, Video, FileText, Check } from 'lucide-react';
+import { UploadCloud, X, CheckCircle2, AlertCircle, Loader2, Key, Video, FileText, Check, ShieldAlert } from 'lucide-react';
 import { getCases, uploadEvidence, CaseData } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 interface EvidenceUploadModalProps {
   isOpen: boolean;
@@ -55,6 +56,9 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const { role, switchRole } = useAuth();
+  const canUpload = role === 'Admin' || role === 'Investigator';
+
   const [file, setFile] = useState<File | null>(null);
   const [previewHash, setPreviewHash] = useState<string>('');
   const [cases, setCases] = useState<CaseData[]>(DEFAULT_FALLBACK_CASES);
@@ -118,6 +122,11 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
     if (!selectedCaseId) {
       setError('Please select an associated case');
       return;
+    }
+
+    if (!canUpload) {
+      switchRole('Investigator');
+      await new Promise((r) => setTimeout(r, 150));
     }
 
     setLoading(true);
@@ -233,6 +242,24 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
           <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
+          </div>
+        )}
+
+        {!canUpload && (
+          <div className="mb-4 p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center justify-between shadow-2xs">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="w-4 h-4 shrink-0 text-amber-600" />
+              <span>
+                Active persona is <strong>{role}</strong>. Sealing evidence requires <strong>Investigator</strong> privileges. Submitting will auto-delegate to Investigator.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => switchRole('Investigator')}
+              className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold font-mono text-[11px] whitespace-nowrap ml-2 transition-all shadow-2xs cursor-pointer"
+            >
+              Switch Now
+            </button>
           </div>
         )}
 

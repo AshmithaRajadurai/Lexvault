@@ -72,15 +72,15 @@ export const DEMO_PROFILES: Record<UserRole, UserProfile> = {
   },
 };
 
-const DEMO_TOKENS: Record<UserRole, string> = {
+export const DEMO_TOKENS: Record<UserRole, string> = {
   Admin:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWFkbWluLTAwMSIsImVtYWlsIjoiYWRtaW5AbGV4dmF1bHQubG9jYWwiLCJyb2xlIjoiQWRtaW4iLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzA0MDY3MjAwLCJleHAiOjE5ODk5OTk5OTl9.9Wk2t8xL9aN7j9vB8_6k6u8vP8k6u8vP8k6u8vP8k6u',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWFkbWluLTAwMSIsImVtYWlsIjoiYWRtaW5AbGV4dmF1bHQubG9jYWwiLCJyb2xlIjoiQWRtaW4iLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzg4NTMyOTkxLCJleHAiOjE4MjAwNjg5OTF9.96KSpOaFxulAvgc-H_aX81mQenafQrjQn46XZ4vUAD0',
   Investigator:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWludi0wMDIiLCJlbWFpbCI6ImludmVzdGlnYXRvckBsZXh2YXVsdC5sb2NhbCIsInJvbGUiOiJJbnZlc3RpZ2F0b3IiLCJ1c2VybmFtZSI6ImludmVzdGlnYXRvciIsImlhdCI6MTcwNDA2NzIwMCwiZXhwIjoxOTg5OTk5OTk5fQ.k7vP8k6u8vP8k6u8vP8k6u8vP8k6u8vP8k6u8vP8k6u',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLWludi0wMDIiLCJlbWFpbCI6ImludmVzdGlnYXRvckBsZXh2YXVsdC5sb2NhbCIsInJvbGUiOiJJbnZlc3RpZ2F0b3IiLCJ1c2VybmFtZSI6ImludmVzdGlnYXRvciIsImlhdCI6MTc4ODUzMjk5MSwiZXhwIjoxODIwMDY4OTkxfQ.DNpVTiKBdzCYG_iCYp5rGwVq_U3TruSTQewpwst7dMU',
   Verifier:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXZlci0wMDMiLCJlbWFpbCI6InZlcmlmaWVyQGxleHZhdWx0LmxvY2FsIiwicm9sZSI6IlZlcmlmaWVyIiwidXNlcm5hbWUiOiJ2ZXJpZmllciIsImlhdCI6MTcwNDA2NzIwMCwiZXhwIjoxOTg5OTk5OTk5fQ.m8vP8k6u8vP8k6u8vP8k6u8vP8k6u8vP8k6u8vP8k6u',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXZlci0wMDMiLCJlbWFpbCI6InZlcmlmaWVyQGxleHZhdWx0LmxvY2FsIiwicm9sZSI6IlZlcmlmaWVyIiwidXNlcm5hbWUiOiJ2ZXJpZmllciIsImlhdCI6MTc4ODUzMjk5MSwiZXhwIjoxODIwMDY4OTkxfQ.VRb8DaCn72EtXdhxjfP5jAlw5sqXM9gawC6oPNEKIPA',
   Viewer:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXZpZXctMDA0IiwiZW1haWwiOiJ2aWV3ZXJAbGV4dmF1bHQubG9jYWwiLCJyb2xlIjoiVmlld2VyIiwidXNlcm5hbWUiOiJ2aWV3ZXIiLCJpYXQiOjE3MDQwNjcyMDAsImV4cCI6MTk4OTk5OTk5OX0.p9vP8k6u8vP8k6u8vP8k6u8vP8k6u8vP8k6u8vP8k6u',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXZpZXctMDA0IiwiZW1haWwiOiJ2aWV3ZXJAbGV4dmF1bHQubG9jYWwiLCJyb2xlIjoiVmlld2VyIiwidXNlcm5hbWUiOiJ2aWV3ZXIiLCJpYXQiOjE3ODg1MzI5OTEsImV4cCI6MTgyMDA2ODk5MX0._wnhaCGoF_rRqkMEuOC7M2E1ZRtEX9TnulP_K6mI9W4',
 };
 
 interface AuthContextType {
@@ -99,7 +99,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem('lexvault_jwt_token') || DEMO_TOKENS['Investigator'];
+    const saved = localStorage.getItem('lexvault_jwt_token');
+    const savedRole = (localStorage.getItem('lexvault_demo_role') as UserRole) || 'Investigator';
+    if (saved && (saved.includes('8vP8k6u') || saved.endsWith('k6u'))) {
+      localStorage.removeItem('lexvault_jwt_token');
+      return DEMO_TOKENS[savedRole] || DEMO_TOKENS.Investigator;
+    }
+    return saved || DEMO_TOKENS[savedRole] || DEMO_TOKENS.Investigator;
   });
 
   const [user, setUser] = useState<AuthUser | null>(() => {
@@ -183,6 +189,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('lexvault_jwt_token', demoToken);
     localStorage.setItem('lexvault_auth_user', JSON.stringify(updatedUser));
     localStorage.setItem('lexvault_demo_role', newRole);
+
+    // Asynchronously synchronize with backend session if available
+    const creds = SEED_CREDENTIALS[newRole];
+    loginUser(creds.email, creds.password)
+      .then((data) => {
+        if (data?.token) {
+          setToken(data.token);
+          localStorage.setItem('lexvault_jwt_token', data.token);
+        }
+      })
+      .catch(() => {
+        // Retain verified demo token
+      });
   };
 
   const logout = () => {
