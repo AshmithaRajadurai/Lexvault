@@ -1,0 +1,10 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"Frontend dev placeholder\"",
+    "build": "echo \"Frontend build placeholder\"",
+    "test": "echo \"Frontend test placeholder\""
+  }
+}

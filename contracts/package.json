@@ -1,0 +1,9 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo \"Contracts build placeholder\"",
+    "test": "echo \"Contracts test placeholder\""
+  }
+}

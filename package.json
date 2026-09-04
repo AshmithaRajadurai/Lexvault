@@ -1,0 +1,25 @@
+{
+  "name": "lexvault",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Privacy-Preserving Digital Evidence Vault & Verifiable Chain of Custody",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "contracts",
+    "zk"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=backend",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "keywords": [
+    "lexvault",
+    "chain-of-custody",
+    "zero-knowledge",
+    "digital-evidence"
+  ],
+  "author": "",
+  "license": "ISC"
+}

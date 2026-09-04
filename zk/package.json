@@ -1,0 +1,9 @@
+{
+  "name": "zk",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo \"ZK build placeholder\"",
+    "test": "echo \"ZK test placeholder\""
+  }
+}
