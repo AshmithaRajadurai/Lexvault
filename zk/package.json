@@ -2,8 +2,25 @@
   "name": "zk",
   "version": "1.0.0",
   "private": true,
+  "description": "Zero-Knowledge Circuit and Prover/Verifier Services for LexVault",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "echo \"ZK build placeholder\"",
-    "test": "echo \"ZK test placeholder\""
+    "compile:circuit": "bash scripts/compile.sh",
+    "build:mock": "node scripts/build-mock-artifacts.js",
+    "build": "node scripts/build-mock-artifacts.js && tsc",
+    "test": "jest --runInBand --detectOpenHandles --forceExit --timeout=30000"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7",
+    "snarkjs": "^0.7.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.7",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db';
 import authRoutes from './routes/authRoutes';
+import zkRoutes from './routes/zkRoutes';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
 
 // Mount Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/zk', zkRoutes);
 
 // Connect to MongoDB and start server if executed directly
 if (process.env.NODE_ENV !== 'test') {
