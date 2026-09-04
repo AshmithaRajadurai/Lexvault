@@ -15,31 +15,29 @@ export const StatsCard: React.FC<StatsCardProps> = ({
   icon,
   variant = 'cyan',
 }) => {
-  const variantStyles = {
-    emerald: 'border-emerald-500/30 bg-emerald-950/20 text-emerald-400 hover:border-emerald-500/60',
-    crimson: 'border-tampered-500/30 bg-tampered-950/20 text-tampered-400 hover:border-tampered-500/60',
-    cyan: 'border-cyan-500/30 bg-cyan-950/20 text-cyan-400 hover:border-cyan-500/60',
-    amber: 'border-amber-500/30 bg-amber-950/20 text-amber-400 hover:border-amber-500/60',
+  const iconStyles = {
+    emerald: 'bg-emerald-50 text-emerald-600 border-emerald-200',
+    crimson: 'bg-rose-50 text-rose-600 border-rose-200',
+    cyan: 'bg-blue-50 text-blue-600 border-blue-200',
+    amber: 'bg-purple-50 text-purple-600 border-purple-200',
   };
 
   return (
-    <div
-      className={`rounded-xl border p-5 bg-dark-900 transition-all duration-300 hover:-translate-y-0.5 ${variantStyles[variant]}`}
-    >
+    <div className="rounded-2xl border border-slate-200 p-5 bg-white shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 font-mono">
           {title}
         </span>
-        <div className="p-2 rounded-lg bg-dark-800/80 border border-dark-700">
+        <div className={`p-2.5 rounded-xl border shadow-2xs ${iconStyles[variant]}`}>
           {icon}
         </div>
       </div>
       <div className="mt-3">
-        <span className="text-3xl font-extrabold font-mono tracking-tight text-white">
+        <span className="text-3xl font-black font-mono tracking-tight text-slate-900">
           {value}
         </span>
         {subtitle && (
-          <p className="text-xs text-slate-400 mt-1 font-medium">{subtitle}</p>
+          <p className="text-xs text-slate-500 mt-1 font-medium">{subtitle}</p>
         )}
       </div>
     </div>

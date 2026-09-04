@@ -4,35 +4,50 @@
 
 @layer base {
   body {
-    background-color: #07090e;
-    color: #e2e8f0;
+    background-color: #f8fafc;
+    color: #1e293b;
   }
 }
 
-/* Custom scrollbars */
+/* Custom scrollbars for light theme */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0f17;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94a3b8;
 }
 
 .glow-emerald {
-  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.2);
 }
 
 .glow-crimson {
-  box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.35);
+  box-shadow: 0 0 20px -3px rgba(239, 68, 68, 0.25);
 }
 
 .glow-cyan {
-  box-shadow: 0 0 20px -5px rgba(6, 182, 212, 0.25);
+  box-shadow: 0 0 20px -3px rgba(6, 182, 212, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
 }

@@ -6,7 +6,17 @@ import crypto from 'crypto';
  * @returns 64-character lowercase hexadecimal SHA-256 string.
  */
 export const computeHash = (buffer: Buffer): string => {
-  return crypto.createHash('sha256').update(buffer).digest('hex');
+  const hash = crypto.createHash('sha256');
+  // For large buffers (up to 200MB), chunk slices to avoid memory pressure or Node buffer limit issues
+  const CHUNK_SIZE = 2 * 1024 * 1024; // 2MB chunk
+  if (buffer.length > CHUNK_SIZE) {
+    for (let offset = 0; offset < buffer.length; offset += CHUNK_SIZE) {
+      const end = Math.min(offset + CHUNK_SIZE, buffer.length);
+      hash.update(buffer.subarray(offset, end));
+    }
+    return hash.digest('hex');
+  }
+  return hash.update(buffer).digest('hex');
 };
 
 /**

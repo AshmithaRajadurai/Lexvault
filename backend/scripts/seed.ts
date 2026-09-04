@@ -16,25 +16,25 @@ const DEFAULT_USERS: SeedUserData[] = [
   {
     username: 'admin',
     email: 'admin@lexvault.local',
-    password: 'Password123!',
+    password: 'Admin@123',
     role: 'Admin',
   },
   {
     username: 'investigator',
     email: 'investigator@lexvault.local',
-    password: 'Password123!',
+    password: 'Investigator@123',
     role: 'Investigator',
   },
   {
     username: 'verifier',
     email: 'verifier@lexvault.local',
-    password: 'Password123!',
+    password: 'Verifier@123',
     role: 'Verifier',
   },
   {
     username: 'viewer',
     email: 'viewer@lexvault.local',
-    password: 'Password123!',
+    password: 'Viewer@123',
     role: 'Viewer',
   },
 ];

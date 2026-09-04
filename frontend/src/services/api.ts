@@ -9,11 +9,15 @@ export const api = axios.create({
 
 // Attach JWT token from localStorage or active demo profile
 api.interceptors.request.use((config) => {
+  const jwtToken = localStorage.getItem('lexvault_jwt_token');
+  if (jwtToken) {
+    config.headers.Authorization = `Bearer ${jwtToken}`;
+    return config;
+  }
   const activeRole = localStorage.getItem('lexvault_demo_role') || 'Investigator';
-  // Pre-signed token or custom stored token
-  const token = localStorage.getItem(`lexvault_token_${activeRole}`);
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const roleToken = localStorage.getItem(`lexvault_token_${activeRole}`);
+  if (roleToken) {
+    config.headers.Authorization = `Bearer ${roleToken}`;
   }
   return config;
 });
@@ -198,9 +202,23 @@ export const getEvidenceDetails = async (evidenceId: string) => {
   }
 };
 
-export const uploadEvidence = async (formData: FormData) => {
+export const loginUser = async (email: string, password: string) => {
+  const res = await api.post('/auth/login', { email, password });
+  return res.data;
+};
+
+export const uploadEvidence = async (
+  formData: FormData,
+  onProgress?: (percent: number) => void
+) => {
   const res = await api.post('/evidence/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
+    onUploadProgress: (progressEvent) => {
+      if (progressEvent.total && onProgress) {
+        const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        onProgress(percent);
+      }
+    },
   });
   return res.data;
 };

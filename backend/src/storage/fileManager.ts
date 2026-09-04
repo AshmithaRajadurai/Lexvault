@@ -9,7 +9,7 @@ import { encryptFileBuffer, decryptFileBuffer } from '../crypto/encryption';
 export const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 100 * 1024 * 1024, // 100 MB max file size
+    fileSize: 200 * 1024 * 1024, // 200 MB max file size
   },
 });
 

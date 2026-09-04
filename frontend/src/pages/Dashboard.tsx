@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
   FolderLock,
   FileCheck2,
@@ -45,13 +45,13 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Top Banner & Quick Action */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-dark-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-white tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl sm:text-3xl font-black font-mono text-slate-900 tracking-tight flex items-center gap-2.5">
             Forensic Custody Ledger
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1 font-mono">
             Privacy-preserving evidence repository powered by Zero-Knowledge commitments & Ethereum smart contracts.
           </p>
         </div>
@@ -59,14 +59,14 @@ export const Dashboard: React.FC = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={loadData}
-            className="p-2.5 rounded-xl border border-dark-700 bg-dark-900 hover:bg-dark-800 text-slate-300 transition-all hover:text-white"
+            className="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-all shadow-xs"
             title="Refresh Data"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
           <button
             onClick={() => setUploadModalOpen(true)}
-            className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold uppercase tracking-wider shadow-lg hover:shadow-emerald-500/20 transition-all flex items-center gap-2"
+            className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-mono font-bold uppercase tracking-wider shadow-sm hover:shadow transition-all flex items-center gap-2"
           >
             <UploadCloud className="w-4 h-4" />
             <span>Intake Evidence</span>
@@ -77,78 +77,80 @@ export const Dashboard: React.FC = () => {
       {/* Stats Counter Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
-          title="Total Active Cases"
+          title="Active Cases"
           value={totalCases}
           subtitle="Open investigative matters"
-          icon={<FolderLock className="w-5 h-5 text-cyan-400" />}
+          icon={<FolderLock className="w-5 h-5 text-blue-600" />}
           variant="cyan"
         />
         <StatsCard
           title="Evidence Artifacts"
           value={totalEvidence}
-          subtitle="Encrypted on-disk vaults"
-          icon={<FileCheck2 className="w-5 h-5 text-purple-400" />}
+          subtitle="Sealed on-disk vaults"
+          icon={<FileCheck2 className="w-5 h-5 text-purple-600" />}
           variant="amber"
         />
         <StatsCard
           title="Verified Records"
           value={verifiedCount}
           subtitle="Immutable chain confirmed"
-          icon={<ShieldCheck className="w-5 h-5 text-emerald-400" />}
+          icon={<ShieldCheck className="w-5 h-5 text-emerald-600" />}
           variant="emerald"
         />
         <StatsCard
           title="Tamper Alerts"
           value={tamperedCount}
           subtitle={tamperedCount > 0 ? 'CRITICAL DISCREPANCIES' : 'Zero compromises'}
-          icon={<ShieldAlert className="w-5 h-5 text-tampered-400" />}
+          icon={<ShieldAlert className="w-5 h-5 text-rose-600" />}
           variant="crimson"
         />
       </div>
 
       {/* Architecture System Status Banner */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl bg-dark-900 border border-dark-750 flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-emerald-950/80 border border-emerald-500/30 text-emerald-400">
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-xs font-bold text-slate-200 font-mono">Solidity Ledger</div>
-            <div className="text-[11px] text-slate-400">LexVaultRegistry (Chain ID 31337)</div>
+            <div className="text-xs font-bold text-slate-800 font-mono">Solidity Ledger</div>
+            <div className="text-[11px] text-slate-500 font-mono">LexVaultRegistry (Chain ID 31337)</div>
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-dark-900 border border-dark-750 flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-purple-950/80 border border-purple-500/30 text-purple-400">
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-purple-50 border border-purple-200 text-purple-600">
             <Cpu className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-xs font-bold text-slate-200 font-mono">ZK-SNARK Prover</div>
-            <div className="text-[11px] text-slate-400">Poseidon BN128 Groth16 Circuit</div>
+            <div className="text-xs font-bold text-slate-800 font-mono">ZK-SNARK Prover</div>
+            <div className="text-[11px] text-slate-500 font-mono">Poseidon BN128 Groth16 Circuit</div>
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-dark-900 border border-dark-750 flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-cyan-950/80 border border-cyan-500/30 text-cyan-400">
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-600">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-xs font-bold text-slate-200 font-mono">Storage Engine</div>
-            <div className="text-[11px] text-slate-400">AES-256-GCM Encrypted Disk Vault</div>
+            <div className="text-xs font-bold text-slate-800 font-mono">Storage Engine</div>
+            <div className="text-[11px] text-slate-500 font-mono">AES-256-GCM (Up to 200MB Video)</div>
           </div>
         </div>
       </div>
 
       {/* Recent Evidence Table */}
-      <div className="rounded-2xl border border-dark-750 bg-dark-900 overflow-hidden shadow-xl">
-        <div className="px-6 py-4 border-b border-dark-800 flex items-center justify-between">
+      <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-xs">
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold font-mono text-white">Recent Evidence Intakes</h3>
-            <p className="text-xs text-slate-400">Latest cryptographic custody registrations</p>
+            <h3 className="text-sm font-bold font-mono text-slate-900 uppercase tracking-wider">
+              Recent Evidence Intakes
+            </h3>
+            <p className="text-xs text-slate-500 font-mono">Latest cryptographic custody registrations</p>
           </div>
           <Link
             to="/vault"
-            className="text-xs font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+            className="text-xs font-mono font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
           >
             View All Vaults
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -157,7 +159,7 @@ export const Dashboard: React.FC = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-dark-950/80 text-slate-400 uppercase tracking-wider border-b border-dark-800">
+            <thead className="bg-slate-50/80 text-slate-500 uppercase tracking-wider border-b border-slate-200 font-bold">
               <tr>
                 <th className="px-6 py-3">Evidence ID</th>
                 <th className="px-6 py-3">File / Case</th>
@@ -167,23 +169,23 @@ export const Dashboard: React.FC = () => {
                 <th className="px-6 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-dark-800/80 text-slate-300">
+            <tbody className="divide-y divide-slate-100 text-slate-700">
               {evidenceList.slice(0, 6).map((item) => (
-                <tr key={item.evidenceId} className="hover:bg-dark-850/60 transition-colors">
-                  <td className="px-6 py-4 font-bold text-white whitespace-nowrap">
+                <tr key={item.evidenceId} className="hover:bg-slate-50/60 transition-colors">
+                  <td className="px-6 py-4 font-bold text-slate-900 whitespace-nowrap">
                     {item.evidenceId}
                   </td>
                   <td className="px-6 py-4">
-                    <div className="font-semibold text-slate-200">{item.filename}</div>
-                    <div className="text-[10px] text-slate-500">{item.caseId}</div>
+                    <div className="font-semibold text-slate-800">{item.filename}</div>
+                    <div className="text-[10px] text-slate-400 font-mono">{item.caseId}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-cyan-400/90 font-mono bg-dark-950 px-2 py-1 rounded border border-dark-750 select-all text-[11px]">
+                    <span className="text-blue-700 font-mono bg-blue-50 px-2 py-1 rounded-md border border-blue-200 select-all text-[11px] font-medium">
                       {item.sha256.slice(0, 10)}...{item.sha256.slice(-8)}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-purple-400/90 font-mono bg-dark-950 px-2 py-1 rounded border border-dark-750 select-all text-[11px]">
+                    <span className="text-purple-700 font-mono bg-purple-50 px-2 py-1 rounded-md border border-purple-200 select-all text-[11px] font-medium">
                       {item.commitment.slice(0, 10)}...{item.commitment.slice(-6)}
                     </span>
                   </td>
@@ -193,7 +195,7 @@ export const Dashboard: React.FC = () => {
                   <td className="px-6 py-4 text-right whitespace-nowrap">
                     <Link
                       to="/vault"
-                      className="px-2.5 py-1.5 rounded-lg bg-dark-800 hover:bg-dark-750 text-slate-300 hover:text-white border border-dark-700 transition-all text-[11px]"
+                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all text-[11px] font-semibold"
                     >
                       Audit
                     </Link>
@@ -214,3 +216,4 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+

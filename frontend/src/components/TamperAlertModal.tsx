@@ -19,52 +19,56 @@ export const TamperAlertModal: React.FC<TamperAlertModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-lg rounded-2xl bg-dark-900 border-2 border-tampered-500 p-6 shadow-2xl glow-crimson">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
+      <div className="relative w-full max-w-lg rounded-3xl bg-white border-2 border-rose-400 p-6 shadow-2xl">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-dark-800"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-3 text-tampered-400">
-          <div className="p-2.5 rounded-xl bg-tampered-950 border border-tampered-500/50">
-            <ShieldAlert className="w-7 h-7 text-tampered-500 animate-pulse" />
+        <div className="flex items-center gap-3 text-rose-700">
+          <div className="p-2.5 rounded-2xl bg-rose-50 border border-rose-200">
+            <ShieldAlert className="w-7 h-7 text-rose-600 animate-pulse" />
           </div>
           <div>
-            <h3 className="text-lg font-bold font-mono text-white tracking-wide">
+            <h3 className="text-lg font-black font-mono text-slate-900 tracking-wide">
               CRITICAL INTEGRITY FAILURE
             </h3>
-            <p className="text-xs text-tampered-400 font-mono">
+            <p className="text-xs text-rose-600 font-mono font-bold">
               UNAUTHORIZED TAMPER DETECTED
             </p>
           </div>
         </div>
 
-        <div className="mt-4 p-4 rounded-xl bg-dark-950 border border-tampered-500/30 text-xs font-mono space-y-3">
+        <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs font-mono space-y-3">
           <div>
-            <span className="text-slate-500 block">Target Evidence ID:</span>
-            <span className="text-white font-bold">{evidenceId}</span>
+            <span className="text-slate-400 block text-[10px] uppercase font-bold">Target Evidence ID:</span>
+            <span className="text-slate-900 font-bold">{evidenceId}</span>
           </div>
 
           {expectedHash && (
             <div>
-              <span className="text-slate-500 block">Original Ledger Hash:</span>
-              <span className="text-emerald-400 break-all select-all">{expectedHash}</span>
+              <span className="text-slate-400 block text-[10px] uppercase font-bold">Original Ledger Hash:</span>
+              <span className="text-emerald-700 font-bold break-all select-all block bg-white p-2 rounded-lg border border-slate-200">
+                {expectedHash}
+              </span>
             </div>
           )}
 
           {actualHash && (
             <div>
-              <span className="text-slate-500 block">Current Corrupted Hash:</span>
-              <span className="text-tampered-400 break-all select-all font-bold">{actualHash}</span>
+              <span className="text-slate-400 block text-[10px] uppercase font-bold">Current Corrupted Hash:</span>
+              <span className="text-rose-700 font-bold break-all select-all block bg-white p-2 rounded-lg border border-rose-200">
+                {actualHash}
+              </span>
             </div>
           )}
         </div>
 
-        <div className="mt-4 flex items-start gap-2 text-xs text-slate-400 bg-tampered-950/40 border border-tampered-900 p-3 rounded-lg">
-          <AlertTriangle className="w-4 h-4 text-tampered-400 shrink-0 mt-0.5" />
+        <div className="mt-4 flex items-start gap-2 text-xs text-slate-600 bg-rose-50/70 border border-rose-200 p-3 rounded-xl font-mono">
+          <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
           <p>
             Cryptographic chain-of-custody broken. Blockchain records verify that the physical data has been altered since original intake.
           </p>
@@ -73,7 +77,7 @@ export const TamperAlertModal: React.FC<TamperAlertModalProps> = ({
         <div className="mt-6 flex justify-end">
           <button
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl bg-dark-800 hover:bg-dark-700 text-white text-xs font-mono uppercase tracking-wider font-semibold border border-dark-600 transition-all"
+            className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-mono uppercase tracking-wider font-bold transition-all shadow-xs"
           >
             Acknowledge Alert
           </button>
