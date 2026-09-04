@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import { User, UserRole } from '../src/models/User';
+import { Case } from '../src/models/Case';
 
 dotenv.config();
 
@@ -39,6 +40,33 @@ const DEFAULT_USERS: SeedUserData[] = [
   },
 ];
 
+const DEFAULT_CASES = [
+  {
+    caseId: 'CASE-2026-001',
+    title: 'Operation Nightfall — Corporate Exfiltration',
+    description: 'Investigating unauthorized extraction of encrypted biometric algorithms.',
+    createdBy: 'investigator@lexvault.local',
+  },
+  {
+    caseId: 'CASE-2026-002',
+    title: 'Project Apex — Hardware Enclave & Supply Chain Breach',
+    description: 'Hardware security enclave verification following suspected physical implant.',
+    createdBy: 'investigator@lexvault.local',
+  },
+  {
+    caseId: 'CASE-2026-003',
+    title: 'Operation BlueSky — Classified Surveillance Intercept',
+    description: 'High-definition aerial surveillance footage and RF network telemetry review.',
+    createdBy: 'investigator@lexvault.local',
+  },
+  {
+    caseId: 'CASE-2026-004',
+    title: 'Operation DeepShield — Ransomware Forensic Audit',
+    description: 'Cryptographic ransom note analysis and forensic memory dump recovery.',
+    createdBy: 'investigator@lexvault.local',
+  },
+];
+
 export const seedDatabase = async (): Promise<void> => {
   const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/lexvault';
 
@@ -66,6 +94,20 @@ export const seedDatabase = async (): Promise<void> => {
           role: userData.role,
         });
         console.log(`[Seed] Created user: ${userData.email} (${userData.role})`);
+      }
+    }
+
+    for (const caseData of DEFAULT_CASES) {
+      const existingCase = await Case.findOne({ caseId: caseData.caseId });
+      if (existingCase) {
+        existingCase.title = caseData.title;
+        existingCase.description = caseData.description;
+        existingCase.createdBy = caseData.createdBy;
+        await existingCase.save();
+        console.log(`[Seed] Updated case: ${caseData.caseId} (${caseData.title})`);
+      } else {
+        await Case.create(caseData);
+        console.log(`[Seed] Created case: ${caseData.caseId} (${caseData.title})`);
       }
     }
 

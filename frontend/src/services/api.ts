@@ -115,7 +115,10 @@ const MOCK_EVIDENCE: EvidenceData[] = [
 export const getCases = async (): Promise<CaseData[]> => {
   try {
     const res = await api.get('/cases');
-    return res.data.cases || [];
+    if (res.data?.cases && res.data.cases.length > 0) {
+      return res.data.cases;
+    }
+    return MOCK_CASES;
   } catch (err) {
     return MOCK_CASES;
   }

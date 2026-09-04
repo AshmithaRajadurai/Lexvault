@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { UploadCloud, X, CheckCircle2, AlertCircle, Loader2, Key, Video, FileText, Check } from 'lucide-react';
 import { getCases, uploadEvidence, CaseData } from '../services/api';
 
@@ -23,6 +23,33 @@ const PIPELINE_STEPS: PipelineStep[] = [
   { id: 5, title: 'Anchoring', subtitle: 'Solidity & Mongo Ledger', actor: 'Smart Contract' },
 ];
 
+const DEFAULT_FALLBACK_CASES: CaseData[] = [
+  {
+    caseId: 'CASE-2026-001',
+    title: 'Operation Nightfall — Corporate Exfiltration',
+    description: 'Investigating unauthorized extraction of encrypted biometric algorithms.',
+    createdBy: 'investigator@lexvault.local',
+  },
+  {
+    caseId: 'CASE-2026-002',
+    title: 'Project Apex — Hardware Enclave & Supply Chain Breach',
+    description: 'Hardware security enclave verification following suspected physical implant.',
+    createdBy: 'investigator@lexvault.local',
+  },
+  {
+    caseId: 'CASE-2026-003',
+    title: 'Operation BlueSky — Classified Surveillance Intercept',
+    description: 'High-definition aerial surveillance footage and RF network telemetry review.',
+    createdBy: 'investigator@lexvault.local',
+  },
+  {
+    caseId: 'CASE-2026-004',
+    title: 'Operation DeepShield — Ransomware Forensic Audit',
+    description: 'Cryptographic ransom note analysis and forensic memory dump recovery.',
+    createdBy: 'investigator@lexvault.local',
+  },
+];
+
 export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
   isOpen,
   onClose,
@@ -30,8 +57,9 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewHash, setPreviewHash] = useState<string>('');
-  const [cases, setCases] = useState<CaseData[]>([]);
-  const [selectedCaseId, setSelectedCaseId] = useState<string>('');
+  const [cases, setCases] = useState<CaseData[]>(DEFAULT_FALLBACK_CASES);
+  const [selectedCaseId, setSelectedCaseId] = useState<string>('CASE-2026-001');
+  const [isCustomCase, setIsCustomCase] = useState<boolean>(false);
   const [customSalt, setCustomSalt] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [uploadPercent, setUploadPercent] = useState<number>(0);
@@ -43,10 +71,9 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       getCases().then((list) => {
-        setCases(list);
-        if (list.length > 0) {
-          setSelectedCaseId(list[0].caseId);
-        }
+        const resolved = list && list.length > 0 ? list : DEFAULT_FALLBACK_CASES;
+        setCases(resolved);
+        setSelectedCaseId((prev) => prev || resolved[0].caseId);
       });
       // Reset modal state
       setFile(null);
@@ -54,6 +81,7 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
       setUploadPercent(0);
       setCurrentStep(1);
       setError(null);
+      setIsCustomCase(false);
     }
   }, [isOpen]);
 
@@ -211,20 +239,41 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Associated Case Selector */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5 font-mono">
-              Step 1 • Associated Case Identifier
-            </label>
-            <select
-              value={selectedCaseId}
-              onChange={(e) => setSelectedCaseId(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:bg-white focus:border-emerald-500 focus:outline-none font-mono transition-all"
-            >
-              {cases.map((c) => (
-                <option key={c.caseId} value={c.caseId}>
-                  [{c.caseId}] — {c.title}
-                </option>
-              ))}
-            </select>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
+                Step 1 • Associated Case Identifier
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsCustomCase(!isCustomCase)}
+                className="text-[11px] font-mono text-emerald-700 hover:text-emerald-800 font-bold"
+              >
+                {isCustomCase ? '← Select Predefined Case' : '+ Enter Custom Case ID'}
+              </button>
+            </div>
+
+            {isCustomCase ? (
+              <input
+                type="text"
+                value={selectedCaseId}
+                onChange={(e) => setSelectedCaseId(e.target.value)}
+                placeholder="e.g. CASE-2026-001"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:bg-white focus:border-emerald-500 focus:outline-none font-mono transition-all"
+                required
+              />
+            ) : (
+              <select
+                value={selectedCaseId}
+                onChange={(e) => setSelectedCaseId(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:bg-white focus:border-emerald-500 focus:outline-none font-mono transition-all font-semibold"
+              >
+                {cases.map((c) => (
+                  <option key={c.caseId} value={c.caseId}>
+                    [{c.caseId}] — {c.title}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           {/* Drag & Drop File Zone */}

@@ -40,11 +40,15 @@ router.post(
         return;
       }
 
-      // Verify associated case exists
-      const targetCase = await Case.findOne({ caseId });
+      // Verify or auto-initialize associated case
+      let targetCase = await Case.findOne({ caseId });
       if (!targetCase) {
-        res.status(404).json({ error: `Case with ID '${caseId}' not found` });
-        return;
+        targetCase = await Case.create({
+          caseId,
+          title: `Investigation Matter ${caseId}`,
+          description: 'Auto-initialized investigative case registry',
+          createdBy: req.user?.email || 'system@lexvault.local',
+        });
       }
 
       if (!evidenceId || typeof evidenceId !== 'string' || evidenceId.trim() === '') {
