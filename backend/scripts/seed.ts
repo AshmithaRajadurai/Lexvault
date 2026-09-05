@@ -148,6 +148,9 @@ export const seedDatabase = async (): Promise<void> => {
       }
     }
 
+    // Purge non-seed evidence artifacts to guarantee fresh baseline
+    await Evidence.deleteMany({ evidenceId: { $nin: ['EV-2026-0901', 'EV-2026-0902', 'EV-2026-0903'] } });
+
     for (const evData of DEFAULT_EVIDENCE) {
       const existingEv = await Evidence.findOne({ evidenceId: evData.evidenceId });
       if (existingEv) {
@@ -164,18 +167,22 @@ export const seedDatabase = async (): Promise<void> => {
     }
 
     console.log('[Seed] Database seeding completed successfully.');
-  } catch (error) {
-    console.error('[Seed] Error seeding database:', error);
-    process.exitCode = 1;
-  } finally {
     await mongoose.disconnect();
     console.log('[Seed] Database connection closed.');
+    process.exit(0);
+  } catch (error) {
+    console.error('[Seed] Error seeding database:', error);
+    try {
+      await mongoose.disconnect();
+    } catch {
+      // ignore
+    }
+    process.exit(1);
   }
 };
 
 // Execute if run directly from CLI
 if (require.main === module) {
-  seedDatabase().then(() => {
-    process.exit(process.exitCode || 0);
-  });
+  seedDatabase();
 }
+
