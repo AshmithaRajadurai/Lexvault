@@ -288,4 +288,4 @@ npm run test:contracts   # Solidity LexVaultRegistry.sol unit tests
 
 ## 📄 License
 
-This project is licensed under the **ISC License**. See `LICENSE` for details.
+This project was developed as a prototype for educational and hackathon purposes
